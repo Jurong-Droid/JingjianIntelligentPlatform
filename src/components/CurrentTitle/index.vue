@@ -2,8 +2,7 @@
   <div :class="!isPadding ? 'title' : 'title padding-20tb'">
     <span v-if="showTitleStyle" class="title-style"></span>
     <span :class="size === 'big' ? 'title-name size-big' : 'title-name'">{{ name }}</span>
-    <span class="describe">{{ describe }}</span>
-    <span v-if="isLine" class="line"></span>
+    <span v-if="showTitleStyle" class="title-style" style="margin-left: 10px;"></span>
   </div>
 </template>
   
@@ -33,6 +32,7 @@ export default {
   padding: 20px 0;
 }
 .title {
+  padding-left: 25%;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -63,7 +63,7 @@ export default {
 }
 
 .size-big {
-  font-size: 18px !important;
+  font-size: 30px !important;
   font-weight: bold;
 }
 </style>

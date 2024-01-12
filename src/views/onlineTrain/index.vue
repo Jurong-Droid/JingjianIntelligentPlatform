@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <div class="upload-card" style="display: flex">
-      <CurrentTitle name="数据上传" size="big" />
+    <div class="upload-card" style="display: flex; align-items: center;">
       <el-select
-        style="width: 20%"
+        style="width: 20%;"
         v-model="moduleType"
         placeholder="模型类型名称"
         :popper-append-to-body="false"
+        popper-class="mode-type-select"
       >
         <el-option
           v-for="item in ModuleTypes"
@@ -15,16 +15,26 @@
           :value="item.id"
         />
       </el-select>
+      <CurrentTitle name="样本管理" size="big"/>
     </div>
     <br />
-    <div class="upload-card">
-      <el-descriptions class="margin-top" :column="3" size="default" border>
+    <div class="upload-card model-training">
+      <el-button style="width: 200px; height: 110px;" type="primary" size="small"
+        >数据上传</el-button
+      >
+      <i class="el-icon-right"></i>
+      <el-descriptions
+        class="margin-top model-info"
+        :column="3"
+        size="default"
+        border
+      >
         <template slot="title">
-          <CurrentTitle name="模型训练" size="big" />
-        </template>
-        <template slot="extra">
-          <el-button type="primary" size="small">数据上传</el-button>
-          <el-button type="primary" size="small">转化</el-button>
+          <el-button
+            type="text"
+            style="padding: 0px; margin: 0px auto; width: 174vh"
+            >模型训练</el-button
+          >
         </template>
         <el-descriptions-item>
           <template slot="label">
@@ -48,10 +58,16 @@
           <el-tag size="small">训练中</el-tag>
         </el-descriptions-item>
       </el-descriptions>
+      <i class="el-icon-right"></i>
+      <el-button style="width: 200px; height: 110px;" type="primary" size="small"
+        >转化</el-button
+      >
     </div>
     <br />
 
-    <div style="display: flex; justify-content: start; text-align: center">
+    <div
+      style="display: flex; justify-content: space-between; text-align: center"
+    >
       <div style="width: 20%; display: flex; justify-content: start">
         <el-input placeholder="样本搜索"></el-input>
         <el-button
@@ -255,11 +271,40 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 .upload-card {
   padding: 18px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.19),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
   border-radius: 10px;
+}
+
+.model-training {
+  display: flex;
+  align-items: center;
+}
+
+.model-info {
+  margin: 0 18px;
+  flex: 1;
+  border: 1px solid #409EFF;
+  height: 110px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.mode-type-select {
+  .el-input__inner {
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+  }
+}
+
+.el-icon-right {
+  font-size: 30px;
+  margin: 0 18px;
+  color: #409EFF;
 }
 </style>
