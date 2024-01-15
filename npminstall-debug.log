@@ -3,9 +3,16 @@
   registry: 'https://registry.npmmirror.com',
   pkgs: [
     {
+      name: 'xgplayer',
+      version: 'latest',
+      type: 'tag',
+      alias: undefined,
+      arg: [Result]
+    },
+    {
       name: '',
-      version: 'svg-baker-runtime/browser-symbol',
-      type: 'git',
+      version: '/Users/ethan_meng/Desktop/东油/rtsp-project/IMDP_vue/xgplayer/dist/index.min.css',
+      type: 'directory',
       alias: undefined,
       arg: [Result]
     }
@@ -15,7 +22,7 @@
   cacheDir: '/Users/ethan_meng/.npminstall_tarball',
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/ethan_meng/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save","svg-baker-runtime/browser-symbol"],"original":["--fix-bug-versions","--china","--userconfig=/Users/ethan_meng/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save","svg-baker-runtime/browser-symbol"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/ethan_meng/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save","xgplayer","xgplayer/dist/index.min.css"],"original":["--fix-bug-versions","--china","--userconfig=/Users/ethan_meng/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save","xgplayer","xgplayer/dist/index.min.css"]}',
     npm_config_user_agent: 'npminstall/7.11.1 npm/? node/v16.20.2 darwin arm64',
     npm_config_cache: '/Users/ethan_meng/.npminstall_tarball',
     NODE: '/opt/homebrew/Cellar/node@16/16.20.2/bin/node',

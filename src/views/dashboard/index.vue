@@ -195,23 +195,13 @@
                     style="width: 100%; height: 100%"
                   >
                     <div class="video-wrapper" :style="videoclass">
-                      <video
-                        :id="`video1`"
+                      <div
+                        id="video1"
                         ref="videoElement1"
-                        muted
-                        controls
                         width="100%"
                         height="100%"
-                        autoplay="autoplay"
-                        style="
-                          border-radius: 10px;
-                          width: 100%;
-                          height: 100%;
-                          margin: 0px;
-                        "
-                      >
-                        1
-                      </video>
+                        style="border-radius: 10px; height: 100%; margin: 0px"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -241,17 +231,13 @@
                     style="width: 100%; height: 100%"
                   >
                     <div class="video-wrapper" :style="videoclass">
-                      <video
+                      <div
                         :id="`video2`"
                         ref="videoElement2"
-                        muted
-                        controls
                         width="100%"
                         height="100%"
-                        autoplay="autoplay"
                         style="border-radius: 10px; width: 100%; height: 100%"
-                      ></video>
-                      <!--<video :id="`video2`" src="src/assets/video/v2.mp4" muted autoplay loop controls width="100%" height="100%" autoplay="autoplay"  style="border-radius: 10px; width: 100%; height: 100%"></video>-->
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -281,16 +267,13 @@
                     style="width: 100%; height: 100%"
                   >
                     <div class="video-wrapper" :style="videoclass">
-                      <video
+                      <div
                         :id="`video3`"
                         ref="videoElement3"
-                        muted
-                        controls
                         width="100%"
                         height="100%"
-                        autoplay="autoplay"
                         style="border-radius: 10px; width: 100%; height: 100%"
-                      ></video>
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -305,6 +288,10 @@
 <script>
 import * as echarts from "echarts/core";
 import { BarChart, PieChart, LineChart } from "echarts/charts";
+import Player from "xgplayer";
+import FlvPlugin from "xgplayer-flv";
+import "xgplayer/dist/index.min.css";
+
 import {
   TitleComponent,
   TooltipComponent,
@@ -330,7 +317,7 @@ echarts.use([
 // import OBJLoader from  'three-obj-loader';
 // import {CSS2DObject, CSS2DRenderer} from "three-css2drender";
 import flvjs from "mpegts.js";
-import FlvExtend from 'flv-extend'
+import FlvExtend from "flv-extend";
 // import FlvExtend from "@/utils/flvExtend.js";
 
 // const OrbitControls = require("three-orbit-controls")(THREE);
@@ -906,21 +893,21 @@ export default {
       if (flvjs.isSupported()) {
         const videoElement1 = this.$refs.videoElement1;
         this.createVideo(videoElement1, this.listN[0]);
-        this.flvPlayerList.push(this.flvPlayer);
+        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
     initPlayer2() {
       if (flvjs.isSupported()) {
         const videoElement2 = this.$refs.videoElement2;
         this.createVideo(videoElement2, this.listN[1]);
-        this.flvPlayerList.push(this.flvPlayer);
+        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
     initPlayer3() {
       if (flvjs.isSupported()) {
         const videoElement3 = this.$refs.videoElement3;
         this.createVideo(videoElement3, this.listN[2]);
-        this.flvPlayerList.push(this.flvPlayer);
+        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
 
@@ -928,56 +915,63 @@ export default {
       // console.log(videoElement, n);
       this.listLoading = false;
 
+      new Player({
+        id: `video${n + 1}`,
+        isLive: true,
+        plugins: [FlvPlugin],
+        url: this.listObj[n].httpUrl,
+        autoplay: true,
+      });
       // 配置需要的功能
-      const flv = new FlvExtend({
-        element: videoElement, // *必传
-        frameTracking: true, // 开启追帧设置
-        updateOnStart: true, // 点击播放后更新视频
-        updateOnFocus: false, // 获得焦点后更新视频
-        reconnect: true, // 开启断流重连
-        reconnectInterval: 2000, // 断流重连间隔
-      });
+      // const flv = new FlvExtend({
+      //   element: videoElement, // *必传
+      //   frameTracking: true, // 开启追帧设置
+      //   updateOnStart: true, // 点击播放后更新视频
+      //   updateOnFocus: false, // 获得焦点后更新视频
+      //   reconnect: true, // 开启断流重连
+      //   reconnectInterval: 2000, // 断流重连间隔
+      // });
 
-      this.flvPlayer = flv.init(
-        {
-          type: "mse",
-          url: this.listObj[n].httpUrl,
-          isLive: true, // 直播模式
-        },
-        {
-          enableWorker: true, // 浏览器端开启flv.js的worker,多进程运行flv.js 不稳定
-          enableStashBuffer: true, //播放flv时，设置是否启用播放缓存，只在直播起作用。
-          stashInitialSize: "300KB", // 指示IO暂存缓冲区的初始大小。默认值为384KB。指出合适的尺寸可以改善视频负载/搜索时间。
-          lazyLoad: true, // 懒加载 数据足够播放 终止http请求
-          lazyLoadMaxDuration: 3, // 懒加载保留3秒
-          accurateSeek: false, // 精确查找任何帧，加载会变慢
-          autoCleanupSourceBuffer: true, // 自动清理缓存
-          autoCleanupMinBackwardDuration: 60,
-          rangeLoadZeroStart: true, // Range: bytes=0-如果使用范围查找，则发送首次负载
-          fixAudioTimestampGap: false, //false
-          reuseRedirectedURL: true,
-        }
-      );
+      // this.flvPlayer = flv.init(
+      //   {
+      //     type: "mse",
+      //     url: this.listObj[n].httpUrl,
+      //     isLive: true, // 直播模式
+      //   },
+      //   {
+      //     enableWorker: true, // 浏览器端开启flv.js的worker,多进程运行flv.js 不稳定
+      //     enableStashBuffer: true, //播放flv时，设置是否启用播放缓存，只在直播起作用。
+      //     stashInitialSize: "300KB", // 指示IO暂存缓冲区的初始大小。默认值为384KB。指出合适的尺寸可以改善视频负载/搜索时间。
+      //     lazyLoad: true, // 懒加载 数据足够播放 终止http请求
+      //     lazyLoadMaxDuration: 3, // 懒加载保留3秒
+      //     accurateSeek: false, // 精确查找任何帧，加载会变慢
+      //     autoCleanupSourceBuffer: true, // 自动清理缓存
+      //     autoCleanupMinBackwardDuration: 60,
+      //     rangeLoadZeroStart: true, // Range: bytes=0-如果使用范围查找，则发送首次负载
+      //     fixAudioTimestampGap: false, //false
+      //     reuseRedirectedURL: true,
+      //   }
+      // );
 
-      this.flvPlayer.attachMediaElement(videoElement);
-      this.flvPlayer.load();
-      if (
-        this.listObj[n] &&
-        this.listObj[n].httpUrl !== null &&
-        this.listObj[n].httpUrl !== ""
-      ) {
-        if (this.flvPlayer) {
-          this.flvPlayer.play();
-        }
-      }
-      this.flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
-        // alert("网络波动,正在尝试连接中...");
-        if (this.flvPlayer) {
-          this.reloadVideo(videoElement, n, this.flvPlayer);
-        }
-        // errType是 NetworkError时，对应errDetail有：Exception、HttpStatusCodeInvalid、ConnectingTimeout、EarlyEof、UnrecoverableEarlyEof
-        // errType是 MediaError时，对应errDetail是MediaMSEError   或MEDIA_SOURCE_ENDED
-      });
+      // this.flvPlayer.attachMediaElement(videoElement);
+      // this.flvPlayer.load();
+      // if (
+      //   this.listObj[n] &&
+      //   this.listObj[n].httpUrl !== null &&
+      //   this.listObj[n].httpUrl !== ""
+      // ) {
+      //   if (this.flvPlayer) {
+      //     this.flvPlayer.play();
+      //   }
+      // }
+      // this.flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
+      //   // alert("网络波动,正在尝试连接中...");
+      //   if (this.flvPlayer) {
+      //     this.reloadVideo(videoElement, n, this.flvPlayer);
+      //   }
+      //   // errType是 NetworkError时，对应errDetail有：Exception、HttpStatusCodeInvalid、ConnectingTimeout、EarlyEof、UnrecoverableEarlyEof
+      //   // errType是 MediaError时，对应errDetail是MediaMSEError   或MEDIA_SOURCE_ENDED
+      // });
     },
     reloadVideo(videoElement, n, flvPlayer) {
       videoElement.src = "";
