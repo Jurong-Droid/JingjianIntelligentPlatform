@@ -15,7 +15,6 @@
               :md="clonum"
               :lg="clonum"
               :xl="clonum"
-              :class="videoclass"
               :key="index"
               style="padding: 0"
             >
@@ -56,7 +55,7 @@
                     style="position: absolute; z-index: 1002; right: 20px"
                     type="text"
                     circle
-                    @click="SclosePlayer(index)"
+                    @click="SclosePlayer(index, $event.target)"
                     >×</el-button
                   >
                   <div class="video-inner live hide-waiting">
@@ -85,6 +84,9 @@ import _ from "lodash";
 import flvjs from "mpegts.js";
 import FlvExtend from "flv-extend";
 import screenfull from "screenfull";
+import Player from "xgplayer";
+import FlvPlugin from "xgplayer-flv";
+import "xgplayer/dist/index.min.css";
 
 export default {
   inject: ["searchParam"],
@@ -109,7 +111,7 @@ export default {
       clonum: 12,
       dialogFormVisible: false,
       videoclass:
-        "padding-bottom: 54.25%; position: relative; margin: 0px auto; overflow: hidden;",
+        "padding-bottom: 54.4%; position: relative; margin: 0px auto;",
       classtype1: "",
       classtype2: "primary",
       classtype3: "",
@@ -373,6 +375,15 @@ export default {
     createVideo(videoElement, n) {
       // console.log(videoElement, n);
 
+      // this.flvPlayer = new Player({
+      //   id: `videoid${n + 1}`,
+      //   isLive: true,
+      //   plugins: [FlvPlugin],
+      //   url: this.listObj[n].httpUrl,
+      //   autoplay: true,
+      //   fluid: true,
+      // });
+
       // 配置需要的功能
       const flv = new FlvExtend({
         element: videoElement, // *必传
@@ -467,9 +478,10 @@ export default {
       this.destoryVideo(this.flvPlayerList[location]);
       console.log("我执行了id：" + id + " 位置：" + location);
     },
-    SclosePlayer(n) {
-      console.log("我执行啦");
+    SclosePlayer(n, element) {
+      console.log("我执行啦", this.flvPlayerList);
 
+      // this.flvPlayerList[n - 1].destroy(true);
       this.closeTree([0, this.listObj[n].id]);
     },
 
@@ -527,6 +539,7 @@ export default {
   left: 0px;
   right: 0px;
   margin-bottom: -5px;
+  background: #3c3c3c;
 }
 .video-wrapper {
   position: relative;
@@ -534,7 +547,6 @@ export default {
   bottom: 0px;
   left: 0px;
   right: 0px;
-  /*border: none;*/
 }
 
 /*

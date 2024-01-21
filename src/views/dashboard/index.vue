@@ -178,8 +178,7 @@
               <div slot="header" class="clearfix">
                 <span
                   class="title_style"
-                  v-text="listObj[this.listN[0]].cameraName"
-                ></span>
+                >{{ listObj[this.listN[0]].cameraName }}</span>
               </div>
               <el-main
                 :el-main="{ padding: '0px 0px' }"
@@ -214,8 +213,7 @@
               <div slot="header" class="clearfix">
                 <span
                   class="title_style"
-                  v-text="listObj[this.listN[1]].cameraName"
-                ></span>
+                >{{ listObj[this.listN[1]].cameraName }}</span>
               </div>
               <el-main
                 :el-main="{ padding: '0px 0px' }"
@@ -250,8 +248,7 @@
               <div slot="header" class="clearfix">
                 <span
                   class="title_style"
-                  v-text="listObj[this.listN[2]].cameraName"
-                ></span>
+                >{{ listObj[this.listN[2]].cameraName }}</span>
               </div>
               <el-main
                 :el-main="{ padding: '0px 0px' }"
@@ -311,16 +308,9 @@ echarts.use([
   LegendComponent,
   DatasetComponent,
 ]);
-// import * as THREE from "three";
-// import {MTLLoader, OBJLoader} from "three-obj-mtl-loader";
-// import MTLLoader from  'three-mtl-loader';
-// import OBJLoader from  'three-obj-loader';
-// import {CSS2DObject, CSS2DRenderer} from "three-css2drender";
-import flvjs from "mpegts.js";
-import FlvExtend from "flv-extend";
-// import FlvExtend from "@/utils/flvExtend.js";
 
-// const OrbitControls = require("three-orbit-controls")(THREE);
+import flvjs from "mpegts.js";
+
 export default {
   name: "threeMap",
   data() {
@@ -429,9 +419,12 @@ export default {
     this.getCountAreaRatio();
     this.getCountModuleRunStatus();
 
-    this.initPlayer1();
-    this.initPlayer2();
-    this.initPlayer3();
+    this.$nextTick(() => {
+      this.initPlayer1();
+      this.initPlayer2();
+      this.initPlayer3();
+    });
+
     //this.switchTime();
   },
   destroyed() {
@@ -885,29 +878,25 @@ export default {
       this.initPlayer1();
       this.initPlayer2();
       this.initPlayer3();
-      this.initPlayer4();
     },
-    //初始化
+    // 初始化
     initPlayer1() {
       this.closePlayer();
       if (flvjs.isSupported()) {
         const videoElement1 = this.$refs.videoElement1;
         this.createVideo(videoElement1, this.listN[0]);
-        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
     initPlayer2() {
       if (flvjs.isSupported()) {
         const videoElement2 = this.$refs.videoElement2;
         this.createVideo(videoElement2, this.listN[1]);
-        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
     initPlayer3() {
       if (flvjs.isSupported()) {
         const videoElement3 = this.$refs.videoElement3;
         this.createVideo(videoElement3, this.listN[2]);
-        // this.flvPlayerList.push(this.flvPlayer);
       }
     },
 
@@ -921,62 +910,11 @@ export default {
         plugins: [FlvPlugin],
         url: this.listObj[n].httpUrl,
         autoplay: true,
+        fluid: true,
       });
-      // 配置需要的功能
-      // const flv = new FlvExtend({
-      //   element: videoElement, // *必传
-      //   frameTracking: true, // 开启追帧设置
-      //   updateOnStart: true, // 点击播放后更新视频
-      //   updateOnFocus: false, // 获得焦点后更新视频
-      //   reconnect: true, // 开启断流重连
-      //   reconnectInterval: 2000, // 断流重连间隔
-      // });
-
-      // this.flvPlayer = flv.init(
-      //   {
-      //     type: "mse",
-      //     url: this.listObj[n].httpUrl,
-      //     isLive: true, // 直播模式
-      //   },
-      //   {
-      //     enableWorker: true, // 浏览器端开启flv.js的worker,多进程运行flv.js 不稳定
-      //     enableStashBuffer: true, //播放flv时，设置是否启用播放缓存，只在直播起作用。
-      //     stashInitialSize: "300KB", // 指示IO暂存缓冲区的初始大小。默认值为384KB。指出合适的尺寸可以改善视频负载/搜索时间。
-      //     lazyLoad: true, // 懒加载 数据足够播放 终止http请求
-      //     lazyLoadMaxDuration: 3, // 懒加载保留3秒
-      //     accurateSeek: false, // 精确查找任何帧，加载会变慢
-      //     autoCleanupSourceBuffer: true, // 自动清理缓存
-      //     autoCleanupMinBackwardDuration: 60,
-      //     rangeLoadZeroStart: true, // Range: bytes=0-如果使用范围查找，则发送首次负载
-      //     fixAudioTimestampGap: false, //false
-      //     reuseRedirectedURL: true,
-      //   }
-      // );
-
-      // this.flvPlayer.attachMediaElement(videoElement);
-      // this.flvPlayer.load();
-      // if (
-      //   this.listObj[n] &&
-      //   this.listObj[n].httpUrl !== null &&
-      //   this.listObj[n].httpUrl !== ""
-      // ) {
-      //   if (this.flvPlayer) {
-      //     this.flvPlayer.play();
-      //   }
-      // }
-      // this.flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
-      //   // alert("网络波动,正在尝试连接中...");
-      //   if (this.flvPlayer) {
-      //     this.reloadVideo(videoElement, n, this.flvPlayer);
-      //   }
-      //   // errType是 NetworkError时，对应errDetail有：Exception、HttpStatusCodeInvalid、ConnectingTimeout、EarlyEof、UnrecoverableEarlyEof
-      //   // errType是 MediaError时，对应errDetail是MediaMSEError   或MEDIA_SOURCE_ENDED
-      // });
     },
     reloadVideo(videoElement, n, flvPlayer) {
       videoElement.src = "";
-      // this.destoryVideo(flvPlayer);
-      // this.createVideo(videoElement, n);
     },
     goabormalList() {
       this.$router.push({
@@ -1091,14 +1029,7 @@ export default {
 
 .box-card {
   background-color: rgba(3, 20, 52, 0.1);
-  /*两侧框线条*/
-  /*box-shadow:inset 0px 0px 15px 8px #626F93;*/
-  /*box-shadow:inset 0 0 10px raba(255,255,255,0.5);*/
   color: #fff;
-  /*overflow-y:auto;!* 开启滚动显示溢出内容 *!*/
-  /*animation: blink-border 2s infinite alternate;*/
-  /*animation-delay: 0.5s;*/
-  /* background-image: url("../../assets/images/index_card_bg.png"); */
   background-image: url("../../assets/images/loginbg.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -1116,7 +1047,6 @@ export default {
   left: 0;
   background-image: linear-gradient(0deg, transparent, #66b1ff, transparent);
   animation: two 4s linear infinite;
-  /*infinite:指定动画无限次播放；linear：运行曲线，匀速运动；two动画名称；4s：花费一个周期所需要的时间*/
 }
 
 .box-card::after {
@@ -1128,7 +1058,6 @@ export default {
   right: 0;
   background-image: linear-gradient(360deg, transparent, #66b1ff, transparent);
   animation: four 4s linear 2s infinite;
-  /*2s延迟2秒播放*/
 }
 .box-card i {
   position: absolute;
