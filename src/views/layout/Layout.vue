@@ -63,7 +63,7 @@ export default {
 }
 .bgImg2 {
   overflow: hidden;
-  background-image: url("../../assets/images/bgimg2.png");
+  background-image: url("../../assets/images/bgimg3.png");
 }
 .header {
   position: absolute;

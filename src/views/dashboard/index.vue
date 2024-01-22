@@ -1000,7 +1000,7 @@ export default {
   bottom: 0px;
   width: 100%;
   height: 100%;
-  background-image: url("../../assets/images/bgimg2.png");
+  background-image: url("../../assets/images/bgimg3.png");
   background-size: 100% 100%;
   background: -webkit-linear-gradient();
 }

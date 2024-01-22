@@ -106,7 +106,7 @@ $light_gray: #eee;
   height: 100vh;
   //background-color: $bg;
 
-  background-image: url("../../assets/images/loginbg1.png");
+  background-image: url("../../assets/images/bgimg3.png");
   background-size: 100% 100%;
   background: -webkit-linear-gradient();
 

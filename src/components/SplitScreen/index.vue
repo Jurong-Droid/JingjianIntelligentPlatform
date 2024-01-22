@@ -4,7 +4,7 @@
       <el-main
         v-loading.body="listLoading"
         element-loading-text="拼命加载中"
-        style="overflow-y: hidden; padding: 0"
+        style="overflow: hidden; padding: 0"
       >
         <div id="container_max">
           <el-row :gutter="10" style="margin: 0 !important">
